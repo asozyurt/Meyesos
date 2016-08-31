@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Umbiad.Common.Messages.Meyesos" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Umbiad.Common.Messages.Meyesos" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:9001/MessageService?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Umbiad.Common.Messages" />
+  <xs:complexType name="UserMessage">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Umbiad.Common.Messages" base="q1:BaseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EntryDate" type="xs:int" />
+          <xs:element minOccurs="0" name="EntryTime" type="xs:int" />
+          <xs:element minOccurs="0" name="Id" type="xs:long" />
+          <xs:element minOccurs="0" name="Media" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="MediaType" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Status" type="xs:short" />
+          <xs:element minOccurs="0" name="UserId" type="xs:long" />
+          <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserMessage" nillable="true" type="tns:UserMessage" />
+</xs:schema>
