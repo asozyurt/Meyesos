@@ -6,41 +6,39 @@ using Umbiad.Common.Messages.Meyesos;
 
 namespace Umbiad.App.DataAccess.Meyesos
 {
-    public class MessageDataAccessManager : DataAccessManager
+    public class MessageDataAccessManager : MeyesosDataAccessManager
     {
         public UserMessage Insert(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
             MYS_MESSAGE newRecord = UserMessageMapper.ConvertToDBRecord(record);
 
-            var userMessage = container.Table_Message.Add(newRecord);
-            container.SaveChanges();
-
-            record.Id = userMessage.Id;
+            var dbRecord = Container.Table_Message.Add(newRecord);
+            if (Container.SaveChanges() == 1)
+            {
+                record.Id = dbRecord.Id;
+            }
 
             return record;
         }
 
         public UserMessage Update(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
             MYS_MESSAGE updatedRecord = UserMessageMapper.ConvertToDBRecord(record);
-            var userMessage = container.Table_Message.Attach(updatedRecord);
+            var dbRecord = Container.Table_Message.Attach(updatedRecord);
 
-            if (container.SaveChanges() == 1)
+            if (Container.SaveChanges() == 1)
             {
-                record.Id = userMessage.Id;
+                record.Id = dbRecord.Id;
             }
             return record;
         }
 
         public UserMessage BulkUpdateByUser(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
             MYS_MESSAGE updatedRecord = UserMessageMapper.ConvertToDBRecord(record);
-            container.Table_Message.Where(x => x.UserId.Equals(record.UserId)).ToList().ForEach(y => container.Table_Message.Attach(y));
+            Container.Table_Message.Where(x => x.UserId.Equals(record.UserId)).ToList().ForEach(y => Container.Table_Message.Attach(y));
 
-            if (container.SaveChanges() == 0)
+            if (Container.SaveChanges() == 0)
             {
                 throw new Exception("Silinecek kayıt bulunamadı.");
             }
@@ -48,32 +46,27 @@ namespace Umbiad.App.DataAccess.Meyesos
         }
         public bool Delete(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
             MYS_MESSAGE updatedRecord = UserMessageMapper.ConvertToDBRecord(record);
-            var userMessage = container.Table_Message.Attach(updatedRecord);
+            var dbRecord = Container.Table_Message.Attach(updatedRecord);
             updatedRecord.Status = Constants.MESSAGESTATUS_DELETED;
 
-            return container.SaveChanges() == 1;
+            return Container.SaveChanges() == 1;
         }
         public bool PermanentlyDelete(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
-            var userMessage = container.Table_Message.Remove(container.Table_Message.Find(record.Id));
-            return container.SaveChanges() == 1;
+            var userMessage = Container.Table_Message.Remove(Container.Table_Message.Find(record.Id));
+            return DbContainer.SaveChanges() == 1;
         }
 
         public UserMessage Get(UserMessage record)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
-            var dbRecord = container.Table_Message.Find(record.Id);
-
+            var dbRecord = Container.Table_Message.Find(record.Id);
             return UserMessageMapper.Convert(dbRecord);
         }
 
         public List<UserMessage> GetByUser(UserMessage message)
         {
-            MeyesosDBContainer container = new MeyesosDBContainer();
-            var dbRecord = container.Table_Message.Where(x => x.UserId.Equals(message.UserId));
+            var dbRecord = Container.Table_Message.Where(x => x.UserId.Equals(message.UserId));
             List<UserMessage> result = new List<UserMessage>();
 
             dbRecord.ToList().ForEach(x => result.Add(UserMessageMapper.Convert(x)));

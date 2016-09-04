@@ -54,6 +54,7 @@
     <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Mappers\FollowInfoMapper.cs" />
     <Compile Include="Mappers\UserMessageMapper.cs" />
+    <Compile Include="MeyesosDataAccessManager.cs" />
     <Compile Include="MeyesosDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
