@@ -5,7 +5,7 @@ namespace Umbiad.App.DataAccess
 {
     public class DataAccessManager
     {
-        private DbContext DbContainer;
+        public DbContext DbContainer { get; set; }
 
         public int SaveChanges()
         {

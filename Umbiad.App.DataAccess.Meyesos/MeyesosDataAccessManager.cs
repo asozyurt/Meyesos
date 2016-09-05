@@ -3,27 +3,16 @@ namespace Umbiad.App.DataAccess.Meyesos
 {
     class MeyesosDataAccessManager : DataAccessManager
     {
-        private MeyesosDBContainer container;
         public MeyesosDBContainer Container
         {
             get
             {
-                return (container ?? new MeyesosDBContainer());
+                return ((MeyesosDBContainer)DbContainer ?? new MeyesosDBContainer());
             }
             set
             {
-                container = value;
+                DbContainer = value;
             }
-        }
-
-        public override int SaveChanges()
-        {
-            return Container.SaveChanges();
-        }
-
-        public override void SaveChangesAsync()
-        {
-            Container.SaveChangesAsync();
         }
     }
 }

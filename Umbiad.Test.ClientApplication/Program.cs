@@ -13,10 +13,10 @@ namespace Umbiad.Test.ClientApplication
             MessageServiceReference.MessageServiceClient refService = new MessageServiceReference.MessageServiceClient("BasicHttpBinding_IMessageService");
             refService.AddMessage(new MessageServiceReference.UserMessage
             {
-                EntryDate = 20160829,
-                EntryTime = 213000,
+                EntryDate = 20160905,
+                EntryTime = 234500,
                 UserName = "asozyurt",
-                Message = "Sixth Message.Its over service client"
+                Message = "Tenth Message.Its over service client"
             });
         }
     }
